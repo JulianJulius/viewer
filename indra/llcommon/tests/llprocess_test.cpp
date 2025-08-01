@@ -440,8 +440,8 @@ TEST_CASE_FIXTURE(llprocess_data, "test_4")
                                  "import sys\n"
                                  "sys.exit(0)\n");
         py.run();
-        ensure_equals("Status.mState", py.mPy->getStatus().mState, LLProcess::EXITED);
-        ensure_equals("Status.mData",  py.mPy->getStatus().mData,  0);
+        CHECK_MESSAGE(py.mPy->getStatus().mState == LLProcess::EXITED, "Status.mState");
+        CHECK_MESSAGE( py.mPy->getStatus().mData ==  0, "Status.mData");
     
 }
 
@@ -453,8 +453,8 @@ TEST_CASE_FIXTURE(llprocess_data, "test_5")
                                  "import sys\n"
                                  "sys.exit(2)\n");
         py.run();
-        ensure_equals("Status.mState", py.mPy->getStatus().mState, LLProcess::EXITED);
-        ensure_equals("Status.mData",  py.mPy->getStatus().mData,  2);
+        CHECK_MESSAGE(py.mPy->getStatus().mState == LLProcess::EXITED, "Status.mState");
+        CHECK_MESSAGE( py.mPy->getStatus().mData ==  2, "Status.mData");
     
 }
 
@@ -468,8 +468,8 @@ TEST_CASE_FIXTURE(llprocess_data, "test_6")
         py.mParams.files.add(LLProcess::FileParam()); // inherit stdout
         py.mParams.files.add(LLProcess::FileParam().type("pipe")); // pipe for stderr
         py.run();
-        ensure_equals("Status.mState", py.mPy->getStatus().mState, LLProcess::EXITED);
-        ensure_equals("Status.mData",  py.mPy->getStatus().mData,  1);
+        CHECK_MESSAGE(py.mPy->getStatus().mState == LLProcess::EXITED, "Status.mState");
+        CHECK_MESSAGE( py.mPy->getStatus().mData ==  1, "Status.mData");
         std::istream& rpipe(py.mPy->getReadPipe(LLProcess::STDERR).get_istream());
         std::vector<char> buffer(4096);
         rpipe.read(&buffer[0], buffer.size());
@@ -708,8 +708,8 @@ TEST_CASE_FIXTURE(llprocess_data, "test_15")
                                  "sys.exit(7)\n");
         py.mParams.files.add(LLProcess::FileParam("pipe", "somename"));
         py.run();                   // verify that it did launch anyway
-        ensure_equals("Status.mState", py.mPy->getStatus().mState, LLProcess::EXITED);
-        ensure_equals("Status.mData",  py.mPy->getStatus().mData,  7);
+        CHECK_MESSAGE(py.mPy->getStatus().mState == LLProcess::EXITED, "Status.mState");
+        CHECK_MESSAGE( py.mPy->getStatus().mData ==  7, "Status.mData");
         std::string message(recorder.messageWith("not yet supported"));
         ensure_contains("log message did not mention internal pipe name",
                         message, "somename");
@@ -846,7 +846,7 @@ TEST_CASE_FIXTURE(llprocess_data, "test_20")
         EventListener listener(childout.getPump());
         // but set limit
         childout.setLimit(10);
-        ensure_equals("getLimit() after setlimit(10)", childout.getLimit(), 10);
+        CHECK_MESSAGE(childout.getLimit() == 10, "getLimit() after setlimit(10)");
         // okay, pump I/O to pick up output from child
         waitfor(*py.mPy);
         listener.checkHistory(
@@ -878,7 +878,7 @@ TEST_CASE_FIXTURE(llprocess_data, "test_21")
         // okay, pump I/O to pick up output from child
         waitfor(*py.mPy);
         // peek() with substr args
-        ensure_equals("peek()", childout.peek(), abc);
+        CHECK_MESSAGE(childout.peek() == abc, "peek()");
         ensure_equals("peek(23)", childout.peek(23), abc.substr(23));
         CHECK_MESSAGE(childout.peek(5 == 3, "peek(5, 3)"), abc.substr(5, 3));
         CHECK_MESSAGE(childout.peek(27 == 2, "peek(27, 2)"), "");
@@ -895,7 +895,7 @@ TEST_CASE_FIXTURE(llprocess_data, "test_21")
         ensure("find(\":\")", childout.find(":") == LLProcess::ReadPipe::npos);
         CHECK_MESSAGE(childout.find(':', "find(':')") == LLProcess::ReadPipe::npos);
         ensure_equals("find(\"d\")", childout.find("d"), 3);
-        ensure_equals("find('d')",   childout.find('d'), 3);
+        CHECK_MESSAGE(  childout.find('d') == 3, "find('d')");
         ensure_equals("find(\"d\", 3)", childout.find("d", 3), 3);
         CHECK_MESSAGE(childout.find('d' == 3, "find('d', 3)"), 3);
         ensure("find(\"d\", 4)", childout.find("d", 4) == LLProcess::ReadPipe::npos);
@@ -930,11 +930,11 @@ TEST_CASE_FIXTURE(llprocess_data, "test_22")
         listener.checkHistory(
             [&params](const EventListener::Listory& history)
             {
-                ensure_equals("number of postend events", history.size(), 1);
+                CHECK_MESSAGE(history.size() == 1, "number of postend events");
                 LLSD postend(history.front());
                 CHECK_MESSAGE(! postend.has("id", "has id"));
                 ensure_equals("desc", postend["desc"].asString(), std::string(params.desc));
-                ensure_equals("state", postend["state"].asInteger(), LLProcess::UNSTARTED);
+                CHECK_MESSAGE(postend["state"].asInteger() == LLProcess::UNSTARTED, "state");
                 CHECK_MESSAGE(! postend.has("data", "has data"));
                 std::string error(postend["string"]);
                 // All we get from canned parameter validation is a bool, so the

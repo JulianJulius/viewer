@@ -383,11 +383,11 @@ TEST_CASE_FIXTURE(tst_viewerassetstats_index, "test_5")
         CHECK_MESSAGE(sd2.isMap(, "Region2 is present in results"));
 
         // Check a few points on the tree for content
-        ensure_equals("sd1[get_texture_non_temp_udp][enqueued] is 1", sd1["get_texture_non_temp_udp"]["enqueued"].asInteger(), 1);
-        ensure_equals("sd1[get_texture_temp_udp][enqueued] is 0", sd1["get_texture_temp_udp"]["enqueued"].asInteger(), 0);
-        ensure_equals("sd1[get_texture_non_temp_http][enqueued] is 0", sd1["get_texture_non_temp_http"]["enqueued"].asInteger(), 0);
-        ensure_equals("sd1[get_texture_temp_http][enqueued] is 0", sd1["get_texture_temp_http"]["enqueued"].asInteger(), 0);
-        ensure_equals("sd1[get_gesture_udp][dequeued] is 0", sd1["get_gesture_udp"]["dequeued"].asInteger(), 0);
+        CHECK_MESSAGE(sd1["get_texture_non_temp_udp"]["enqueued"].asInteger() == 1, "sd1[get_texture_non_temp_udp][enqueued] is 1");
+        CHECK_MESSAGE(sd1["get_texture_temp_udp"]["enqueued"].asInteger() == 0, "sd1[get_texture_temp_udp][enqueued] is 0");
+        CHECK_MESSAGE(sd1["get_texture_non_temp_http"]["enqueued"].asInteger() == 0, "sd1[get_texture_non_temp_http][enqueued] is 0");
+        CHECK_MESSAGE(sd1["get_texture_temp_http"]["enqueued"].asInteger() == 0, "sd1[get_texture_temp_http][enqueued] is 0");
+        CHECK_MESSAGE(sd1["get_gesture_udp"]["dequeued"].asInteger() == 0, "sd1[get_gesture_udp][dequeued] is 0");
 
         // Check a few points on the tree for content
         CHECK_MESSAGE((4 == sd2["get_gesture_udp"]["enqueued"].asInteger(, "sd2[get_gesture_udp][enqueued] is 4")));
@@ -478,8 +478,8 @@ TEST_CASE_FIXTURE(tst_viewerassetstats_index, "test_6")
         delete gViewerAssetStats;
         gViewerAssetStats = NULL;
 
-        ensure_equals("sd2[get_texture_non_temp_udp][enqueued] is reset", sd2["get_texture_non_temp_udp"]["enqueued"].asInteger(), 0);
-        ensure_equals("sd2[get_gesture_udp][enqueued] is reset", sd2["get_gesture_udp"]["enqueued"].asInteger(), 0);
+        CHECK_MESSAGE(sd2["get_texture_non_temp_udp"]["enqueued"].asInteger() == 0, "sd2[get_texture_non_temp_udp][enqueued] is reset");
+        CHECK_MESSAGE(sd2["get_gesture_udp"]["enqueued"].asInteger() == 0, "sd2[get_gesture_udp][enqueued] is reset");
     
 }
 
@@ -543,8 +543,8 @@ TEST_CASE_FIXTURE(tst_viewerassetstats_index, "test_7")
         delete gViewerAssetStats;
         gViewerAssetStats = NULL;
 
-        ensure_equals("sd[get_texture_non_temp_udp][enqueued] is reset", sd["get_texture_non_temp_udp"]["enqueued"].asInteger(), 0);
-        ensure_equals("sd[get_gesture_udp][dequeued] is reset", sd["get_gesture_udp"]["dequeued"].asInteger(), 0);
+        CHECK_MESSAGE(sd["get_texture_non_temp_udp"]["enqueued"].asInteger() == 0, "sd[get_texture_non_temp_udp][enqueued] is reset");
+        CHECK_MESSAGE(sd["get_gesture_udp"]["dequeued"].asInteger() == 0, "sd[get_gesture_udp][dequeued] is reset");
     
 }
 

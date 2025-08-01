@@ -148,10 +148,10 @@ TEST_CASE("test_2")
         // test the getStart() method
         //
         LLUrlMatch match;
-        ensure_equals("getStart() == 0", match.getStart(), 0);
+        CHECK_MESSAGE(match.getStart() == 0, "getStart() == 0");
 
         match.setValues(10, 20, "", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getStart() == 10", match.getStart(), 10);
+        CHECK_MESSAGE(match.getStart() == 10, "getStart() == 10");
     
 }
 
@@ -162,10 +162,10 @@ TEST_CASE("test_3")
         // test the getEnd() method
         //
         LLUrlMatch match;
-        ensure_equals("getEnd() == 0", match.getEnd(), 0);
+        CHECK_MESSAGE(match.getEnd() == 0, "getEnd() == 0");
 
         match.setValues(10, 20, "", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getEnd() == 20", match.getEnd(), 20);
+        CHECK_MESSAGE(match.getEnd() == 20, "getEnd() == 20");
     
 }
 
@@ -176,13 +176,13 @@ TEST_CASE("test_4")
         // test the getUrl() method
         //
         LLUrlMatch match;
-        ensure_equals("getUrl() == ''", match.getUrl(), "");
+        CHECK_MESSAGE(match.getUrl() == "", "getUrl() == ''");
 
         match.setValues(10, 20, "http://slurl.com/", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getUrl() == 'http://slurl.com/'", match.getUrl(), "http://slurl.com/");
+        CHECK_MESSAGE(match.getUrl() == "http://slurl.com/", "getUrl() == 'http://slurl.com/'");
 
         match.setValues(10, 20, "", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getUrl() == '' (2)", match.getUrl(), "");
+        CHECK_MESSAGE(match.getUrl() == "", "getUrl() == '' (2)");
     
 }
 
@@ -193,13 +193,13 @@ TEST_CASE("test_5")
         // test the getLabel() method
         //
         LLUrlMatch match;
-        ensure_equals("getLabel() == ''", match.getLabel(), "");
+        CHECK_MESSAGE(match.getLabel() == "", "getLabel() == ''");
 
         match.setValues(10, 20, "", "Label", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getLabel() == 'Label'", match.getLabel(), "Label");
+        CHECK_MESSAGE(match.getLabel() == "Label", "getLabel() == 'Label'");
 
         match.setValues(10, 20, "", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getLabel() == '' (2)", match.getLabel(), "");
+        CHECK_MESSAGE(match.getLabel() == "", "getLabel() == '' (2)");
     
 }
 
@@ -210,13 +210,13 @@ TEST_CASE("test_6")
         // test the getTooltip() method
         //
         LLUrlMatch match;
-        ensure_equals("getTooltip() == ''", match.getTooltip(), "");
+        CHECK_MESSAGE(match.getTooltip() == "", "getTooltip() == ''");
 
         match.setValues(10, 20, "", "", "", "Info", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getTooltip() == 'Info'", match.getTooltip(), "Info");
+        CHECK_MESSAGE(match.getTooltip() == "Info", "getTooltip() == 'Info'");
 
         match.setValues(10, 20, "", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getTooltip() == '' (2)", match.getTooltip(), "");
+        CHECK_MESSAGE(match.getTooltip() == "", "getTooltip() == '' (2)");
     
 }
 
@@ -227,13 +227,13 @@ TEST_CASE("test_7")
         // test the getIcon() method
         //
         LLUrlMatch match;
-        ensure_equals("getIcon() == ''", match.getIcon(), "");
+        CHECK_MESSAGE(match.getIcon() == "", "getIcon() == ''");
 
         match.setValues(10, 20, "", "", "", "", "Icon", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getIcon() == 'Icon'", match.getIcon(), "Icon");
+        CHECK_MESSAGE(match.getIcon() == "Icon", "getIcon() == 'Icon'");
 
         match.setValues(10, 20, "", "", "", "", "", LLStyle::Params(), "", "", LLUUID::null);
-        ensure_equals("getIcon() == '' (2)", match.getIcon(), "");
+        CHECK_MESSAGE(match.getIcon() == "", "getIcon() == '' (2)");
     
 }
 

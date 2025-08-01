@@ -201,8 +201,8 @@ TEST_CASE_FIXTURE(textureinfo_test, "test_10")
         S32 totalBytes = requestSizeOne + requestSizeTwo;
 
         LLSD results = tex_info.getAverages();
-        ensure_equals("is average bits per second correct", results["bits_per_second"].asInteger(), averageBitRate);
-        ensure_equals("is total bytes is correct", results["bytes_downloaded"].asInteger(), totalBytes);
+        CHECK_MESSAGE(results["bits_per_second"].asInteger() == averageBitRate, "is average bits per second correct");
+        CHECK_MESSAGE(results["bytes_downloaded"].asInteger() == totalBytes, "is total bytes is correct");
         ensure_equals("is transport correct", results["transport"].asString(), std::string("HTTP"));
     
 }

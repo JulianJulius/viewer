@@ -100,7 +100,7 @@ TEST_CASE_FIXTURE(HTTPClientTestData, "test_3")
         LLHTTPClient::post(local_server + "web/echo", sd, newResult());
         runThePump();
         ensureStatusOK();
-        ensure_equals("echoed result matches", getResult(), sd);
+        CHECK_MESSAGE(getResult() == sd, "echoed result matches");
     
 }
 
@@ -118,7 +118,7 @@ TEST_CASE_FIXTURE(HTTPClientTestData, "test_4")
         LLHTTPClient::get(local_server + "test/storage", newResult());
         runThePump();
         ensureStatusOK();
-        ensure_equals("echoed result matches", getResult(), sd);
+        CHECK_MESSAGE(getResult() == sd, "echoed result matches");
 
     
 }

@@ -272,13 +272,13 @@ TEST_CASE("test_8")
 
         U32Bytes max_bytes(U32_MAX);
         S32Megabytes mega_bytes = max_bytes;
-        CHECK_MESSAGE(mega_bytes == (S32Megabytes, "max available precision is used when converting units")4095);
+        CHECK_MESSAGE(mega_bytes == (S32Megabytes) 4095, "max available precision is used when converting units");
 
         mega_bytes = (S32Megabytes)-5 + (U32Megabytes)1;
-        CHECK_MESSAGE(mega_bytes == (S32Megabytes, "can mix signed and unsigned in units addition")-4);
+        CHECK_MESSAGE(mega_bytes == (S32Megabytes) -4, "can mix signed and unsigned in units addition");
 
         mega_bytes = (U32Megabytes)5 + (S32Megabytes)-1;
-        CHECK_MESSAGE(mega_bytes == (S32Megabytes, "can mix unsigned and signed in units addition")4);
+        CHECK_MESSAGE(mega_bytes == (S32Megabytes) 4, "can mix unsigned and signed in units addition");
     
 }
 

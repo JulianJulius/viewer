@@ -78,7 +78,7 @@ TEST_CASE_FIXTURE(control_group, "test_2")
 
         int results = mCG->loadFromFile(mTestConfigFile.c_str());
         mCG->setU32("TestSetting", 13);
-        ensure_equals("value of changed setting", mCG->getU32("TestSetting"), 13);
+        CHECK_MESSAGE(mCG->getU32("TestSetting") == 13, "value of changed setting");
         LLControlGroup test_cg("foo2");
         std::string temp_test_file = (mTestConfigDir + "setting_llsd_temp.xml");
         mCleanups.push_back(temp_test_file);
@@ -100,7 +100,7 @@ TEST_CASE_FIXTURE(control_group, "test_3")
         LLControlVariable* control = mCG->getControl("TestSetting");
         LLSD new_value = 13;
         control->setValue(new_value, false);
-        ensure_equals("value of changed setting", mCG->getU32("TestSetting"), 13);
+        CHECK_MESSAGE(mCG->getU32("TestSetting") == 13, "value of changed setting");
         LLControlGroup test_cg("foo3");
         std::string temp_test_file = (mTestConfigDir + "setting_llsd_persist_temp.xml");
         mCleanups.push_back(temp_test_file);

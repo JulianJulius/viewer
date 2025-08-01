@@ -77,7 +77,7 @@ TEST_CASE("test_4")
 
         F32 x =-2.0f, y = -3.0f ;
         LLVector2 vec2(x,y);
-        ensure_equals("abs():Fail", vec2.abs(), true);
+        CHECK_MESSAGE(vec2.abs() == true, "abs():Fail");
         CHECK_MESSAGE(is_approx_equal(vec2.mV[VX], 2.f, "abs() x"));
         CHECK_MESSAGE(is_approx_equal(vec2.mV[VY], 3.f, "abs() y"));
 

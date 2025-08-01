@@ -158,7 +158,7 @@ TEST_CASE("test_3")
         std::istringstream stream(VALID_DATE);
         std::string  expected_string = VALID_DATE;
         date.fromStream(stream);
-        ensure_equals("fromStream failed", date.asString(), expected_string);
+        CHECK_MESSAGE(date.asString() == expected_string, "fromStream failed");
     
 }
 

@@ -163,113 +163,113 @@ TEST_CASE_FIXTURE(slurlTest, "test_1")
         LLGridManager::getInstance()->setGridChoice("util.agni.lindenlab.com");
 
         LLSLURL slurl = LLSLURL("");
-        ensure_equals("null slurl", (int)slurl.getType(), LLSLURL::LAST_LOCATION);
+        CHECK_MESSAGE((int)slurl.getType() == LLSLURL::LAST_LOCATION, "null slurl");
 
         slurl = LLSLURL("http://slurl.com/secondlife/myregion");
-        ensure_equals("slurl.com slurl, region only - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "slurl.com slurl, region only - type");
         ensure_equals("slurl.com slurl, region only", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/myregion/128/128/0");
 
         slurl = LLSLURL("http://maps.secondlife.com/secondlife/myregion/1/2/3");
-        ensure_equals("maps.secondlife.com slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "maps.secondlife.com slurl, region + coords - type");
         ensure_equals("maps.secondlife.com slurl, region + coords", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/myregion/1/2/3");
 
         slurl = LLSLURL("secondlife://");
-        ensure_equals("secondlife: slurl, empty - type", slurl.getType(), LLSLURL::EMPTY);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::EMPTY, "secondlife: slurl, empty - type");
 
         slurl = LLSLURL("secondlife:///");
-        ensure_equals("secondlife: slurl, root - type", slurl.getType(), LLSLURL::EMPTY);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::EMPTY, "secondlife: slurl, root - type");
 
         slurl = LLSLURL("secondlife://myregion");
-        ensure_equals("secondlife: slurl, region only - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "secondlife: slurl, region only - type");
         ensure_equals("secondlife: slurl, region only", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/myregion/128/128/0");
 
         slurl = LLSLURL("secondlife://myregion/1/2/3");
-        ensure_equals("secondlife: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "secondlife: slurl, region + coords - type");
         ensure_equals("secondlife slurl, region + coords", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/myregion/1/2/3");
 
         slurl = LLSLURL("/myregion");
-        ensure_equals("/region slurl, region- type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "/region slurl, region- type");
         ensure_equals("/region slurl, region ", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/myregion/128/128/0");
 
         slurl = LLSLURL("/myregion/1/2/3");
-        ensure_equals("/: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "/: slurl, region + coords - type");
         ensure_equals("/ slurl, region + coords", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/myregion/1/2/3");
 
         slurl = LLSLURL("my region/1/2/3");
-        ensure_equals(" slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, " slurl, region + coords - type");
         ensure_equals(" slurl, region + coords", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/my%20region/1/2/3");
 
         LLGridManager::getInstance()->setGridChoice("my.grid.com");
         slurl = LLSLURL("https://my.grid.com/region/my%20region/1/2/3");
-        ensure_equals("grid slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "grid slurl, region + coords - type");
         ensure_equals("grid slurl, region + coords", slurl.getSLURLString(),
                       "https://my.grid.com/region/my%20region/1/2/3");
 
         slurl = LLSLURL("https://my.grid.com/region/my region");
-        ensure_equals("grid slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "grid slurl, region + coords - type");
         ensure_equals("grid slurl, region + coords", slurl.getSLURLString(),
                       "https://my.grid.com/region/my%20region/128/128/0");
 
         LLGridManager::getInstance()->setGridChoice("foo.bar.com");
         slurl = LLSLURL("/myregion/1/2/3");
-        ensure_equals("/: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "/: slurl, region + coords - type");
         ensure_equals("/ slurl, region + coords", slurl.getSLURLString(),
                       "https://foo.bar.com/region/myregion/1/2/3");
 
         slurl = LLSLURL("myregion/1/2/3");
-        ensure_equals(": slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, ": slurl, region + coords - type");
         ensure_equals(" slurl, region + coords", slurl.getSLURLString(),
                       "https://foo.bar.com/region/myregion/1/2/3");
 
         slurl = LLSLURL(LLSLURL::SIM_LOCATION_HOME);
-        ensure_equals("home", slurl.getType(), LLSLURL::HOME_LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::HOME_LOCATION, "home");
 
         slurl = LLSLURL(LLSLURL::SIM_LOCATION_LAST);
-        ensure_equals("last", slurl.getType(), LLSLURL::LAST_LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LAST_LOCATION, "last");
 
         slurl = LLSLURL("secondlife:///app/foo/bar?12345");
-        ensure_equals("app", slurl.getType(), LLSLURL::APP);
-        ensure_equals("appcmd", slurl.getAppCmd(), "foo");
-        ensure_equals("apppath", slurl.getAppPath().size(), 1);
-        ensure_equals("apppath2", slurl.getAppPath()[0].asString(), "bar");
-        ensure_equals("appquery", slurl.getAppQuery(), "12345");
-        ensure_equals("grid1", slurl.getGrid(), "FooBar");
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::APP, "app");
+        CHECK_MESSAGE(slurl.getAppCmd() == "foo", "appcmd");
+        CHECK_MESSAGE(slurl.getAppPath().size() == 1, "apppath");
+        CHECK_MESSAGE(slurl.getAppPath()[0].asString() == "bar", "apppath2");
+        CHECK_MESSAGE(slurl.getAppQuery() == "12345", "appquery");
+        CHECK_MESSAGE(slurl.getGrid() == "FooBar", "grid1");
 
         slurl = LLSLURL("secondlife://Aditi/app/foo/bar?12345");
-        ensure_equals("app", slurl.getType(), LLSLURL::APP);
-        ensure_equals("appcmd", slurl.getAppCmd(), "foo");
-        ensure_equals("apppath", slurl.getAppPath().size(), 1);
-        ensure_equals("apppath2", slurl.getAppPath()[0].asString(), "bar");
-        ensure_equals("appquery", slurl.getAppQuery(), "12345");
-        ensure_equals("grid2",  slurl.getGrid(), "Aditi");
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::APP, "app");
+        CHECK_MESSAGE(slurl.getAppCmd() == "foo", "appcmd");
+        CHECK_MESSAGE(slurl.getAppPath().size() == 1, "apppath");
+        CHECK_MESSAGE(slurl.getAppPath()[0].asString() == "bar", "apppath2");
+        CHECK_MESSAGE(slurl.getAppQuery() == "12345", "appquery");
+        CHECK_MESSAGE( slurl.getGrid() == "Aditi", "grid2");
 
         LLGridManager::getInstance()->setGridChoice("foo.bar.com");
         slurl = LLSLURL("secondlife:///secondlife/myregion/1/2/3");
-        ensure_equals("/: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
-        ensure_equals("location", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "/: slurl, region + coords - type");
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "location");
         ensure_equals("region" , "myregion", slurl.getRegion());
-        ensure_equals("grid3", slurl.getGrid(), "util.agni.lindenlab.com");
+        CHECK_MESSAGE(slurl.getGrid() == "util.agni.lindenlab.com", "grid3");
 
         slurl = LLSLURL("secondlife://Aditi/secondlife/myregion/1/2/3");
-        ensure_equals("/: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
-        ensure_equals("location", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "/: slurl, region + coords - type");
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "location");
         ensure_equals("region" , "myregion", slurl.getRegion());
-        ensure_equals("grid4", slurl.getGrid(), "Aditi" );
+        CHECK_MESSAGE(slurl.getGrid() == "Aditi" , "grid4");
 
         LLGridManager::getInstance()->setGridChoice("my.grid.com");
         slurl = LLSLURL("https://my.grid.com/app/foo/bar?12345");
-        ensure_equals("app", slurl.getType(), LLSLURL::APP);
-        ensure_equals("appcmd", slurl.getAppCmd(), "foo");
-        ensure_equals("apppath", slurl.getAppPath().size(), 1);
-        ensure_equals("apppath2", slurl.getAppPath()[0].asString(), "bar");
-        ensure_equals("appquery", slurl.getAppQuery(), "12345");
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::APP, "app");
+        CHECK_MESSAGE(slurl.getAppCmd() == "foo", "appcmd");
+        CHECK_MESSAGE(slurl.getAppPath().size() == 1, "apppath");
+        CHECK_MESSAGE(slurl.getAppPath()[0].asString() == "bar", "apppath2");
+        CHECK_MESSAGE(slurl.getAppQuery() == "12345", "appquery");
 
     
 }
@@ -284,24 +284,24 @@ TEST_CASE_FIXTURE(slurlTest, "test_2")
         LLGridManager::getInstance()->initialize(TEST_FILENAME);
 
         LLSLURL slurl = LLSLURL("my.grid.com", "my region");
-        ensure_equals("grid/region - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "grid/region - type");
         ensure_equals("grid/region", slurl.getSLURLString(),
                       "https://my.grid.com/region/my%20region/128/128/0");
 
         slurl = LLSLURL("my.grid.com", "my region", LLVector3(1,2,3));
-        ensure_equals("grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "grid/region/vector - type");
         ensure_equals(" grid/region/vector", slurl.getSLURLString(),
                       "https://my.grid.com/region/my%20region/1/2/3");
 
         LLGridManager::getInstance()->setGridChoice("util.agni.lindenlab.com");
         slurl = LLSLURL("my region", LLVector3(1,2,3));
-        ensure_equals("default grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "default grid/region/vector - type");
         ensure_equals(" default grid/region/vector", slurl.getSLURLString(),
                       "http://maps.secondlife.com/secondlife/my%20region/1/2/3");
 
         LLGridManager::getInstance()->setGridChoice("MyGrid");
         slurl = LLSLURL("my region", LLVector3(1,2,3));
-        ensure_equals("default grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
+        CHECK_MESSAGE(slurl.getType() == LLSLURL::LOCATION, "default grid/region/vector - type");
         ensure_equals(" default grid/region/vector", slurl.getSLURLString(),
                       "https://my.grid.com/region/my%20region/1/2/3");
 
@@ -319,10 +319,10 @@ TEST_CASE_FIXTURE(slurlTest, "test_3")
 
         LLGridManager::getInstance()->setGridChoice("my.grid.com");
         LLSLURL slurl = LLSLURL("https://my.grid.com/region/my%20region/1/2/3");
-        ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
-        ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
-        ensure_equals("grid", slurl.getGrid(), "my.grid.com");
-        ensure_equals("region", slurl.getRegion(), "my region");
+        CHECK_MESSAGE(slurl.getLoginString() == "uri:my region&amp;1&amp;2&amp;3", "login string");
+        CHECK_MESSAGE(slurl.getLocationString() == "my region/1/2/3", "location string");
+        CHECK_MESSAGE(slurl.getGrid() == "my.grid.com", "grid");
+        CHECK_MESSAGE(slurl.getRegion() == "my region", "region");
         ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
 
     

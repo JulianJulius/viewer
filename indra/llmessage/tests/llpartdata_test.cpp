@@ -48,13 +48,13 @@ TEST_CASE("test_1")
 
 
         //mCRC  1   unsigned int
-        CHECK_MESSAGE(llpsysdata.mCRC == (U32, "mCRC different after unpacking") 1);
+        CHECK_MESSAGE(llpsysdata.mCRC == (U32) 1, "mCRC different after unpacking");
         //mFlags    0   unsigned int
-        CHECK_MESSAGE(llpsysdata.mFlags == (U32, "mFlags different after unpacking") 0);
+        CHECK_MESSAGE(llpsysdata.mFlags == (U32) 0, "mFlags different after unpacking");
         //mPattern  1 ''   unsigned char
-        CHECK_MESSAGE(llpsysdata.mPattern == (U8, "mPattern different after unpacking") 1);
+        CHECK_MESSAGE(llpsysdata.mPattern == (U8) 1) ;
         //mInnerAngle   0.00000000  float
-        ensure_approximately_equals("mInnerAngle different after unpacking", llpsysdata.mInnerAngle, 0.f, 8);
+        ensure_approximately_equals("mInnerAngle different after unpacking", llpsysdata.mInnerAngle, 0.f, 8, "mPattern different after unpacking");
         //mOuterAngle   0.00000000  float
         ensure_approximately_equals("mOuterAngle different after unpacking", llpsysdata.mOuterAngle, 0.f, 8);
         //mAngularVelocity  0,0,0
@@ -64,9 +64,9 @@ TEST_CASE("test_1")
         //mBurstRate    0.097656250 float
         ensure_approximately_equals("mBurstRate different after unpacking", llpsysdata.mBurstRate, 0.097656250f, 8);
         //mBurstPartCount   1 ''   unsigned char
-        CHECK_MESSAGE(llpsysdata.mBurstPartCount == (U8, "mBurstPartCount different after unpacking") 1);
+        CHECK_MESSAGE(llpsysdata.mBurstPartCount == (U8) 1) ;
         //mBurstRadius  0.00000000  float
-        ensure_approximately_equals("mBurstRadius different after unpacking", llpsysdata.mBurstRadius, 0.f, 8);
+        ensure_approximately_equals("mBurstRadius different after unpacking", llpsysdata.mBurstRadius, 0.f, 8, "mBurstPartCount different after unpacking");
         //mBurstSpeedMin    1.0000000   float
         ensure_approximately_equals("mBurstSpeedMin different after unpacking", llpsysdata.mBurstSpeedMin, 1.f, 8);
         //mBurstSpeedMax    1.0000000   float
@@ -84,9 +84,9 @@ TEST_CASE("test_1")
         LLPartData& data = llpsysdata.mPartData;
 
         //mFlags    132354  unsigned int
-        CHECK_MESSAGE(data.mFlags == (U32, "mPartData.mFlags different after unpacking") 132354);
+        CHECK_MESSAGE(data.mFlags == (U32) 132354) ;
         //mMaxAge   10.000000   float
-        ensure_approximately_equals("mPartData.mMaxAge different after unpacking", data.mMaxAge, 10.f, 8);
+        ensure_approximately_equals("mPartData.mMaxAge different after unpacking", data.mMaxAge, 10.f, 8, "mPartData.mFlags different after unpacking");
         //mStartColor   <1,1,1,1>
         ensure_approximately_equals("mPartData.mStartColor.mV[0] different after unpacking", data.mStartColor.mV[0], 1.f, 8);
         ensure_approximately_equals("mPartData.mStartColor.mV[1] different after unpacking", data.mStartColor.mV[1], 1.f, 8);
@@ -115,9 +115,9 @@ TEST_CASE("test_1")
         //mEndGlow  0.00000000  float
         ensure_approximately_equals("mPartData.mEndGlow different after unpacking", data.mEndGlow, 0.f, 8);
         //mBlendFuncSource  2 ''   unsigned char
-        CHECK_MESSAGE(data.mBlendFuncSource == (U8, "mPartData.mBlendFuncSource different after unpacking") 2);
+        CHECK_MESSAGE(data.mBlendFuncSource == (U8) 2, "mPartData.mBlendFuncSource different after unpacking");
         //mBlendFuncDest    1 ''   unsigned char
-        CHECK_MESSAGE(data.mBlendFuncDest == (U8, "mPartData.mBlendFuncDest different after unpacking") 1);
+        CHECK_MESSAGE(data.mBlendFuncDest == (U8) 1, "mPartData.mBlendFuncDest different after unpacking");
     
 }
 

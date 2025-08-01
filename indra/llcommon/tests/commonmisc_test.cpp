@@ -45,6 +45,8 @@
 #include "../llhash.h"
 
 #include "../test/lldoctest.h"
+#include <cstring>
+#include <algorithm>
 
 TEST_SUITE("LLSD") {
 
@@ -202,7 +204,7 @@ TEST_CASE("test_11")
         LLSD sd;
         S32 count = LLSDSerialize::fromNotation(sd, str, str.str().size());
         CHECK_MESSAGE(count == 1, "parse count");
-        ensure_equals("string value", sd.asString(), expected);
+        CHECK_MESSAGE(sd.asString() == expected, "string value");
     
 }
 
@@ -215,7 +217,7 @@ TEST_CASE("test_12")
         LLSD sd;
         S32 count = LLSDSerialize::fromNotation(sd, str, str.str().size());
         CHECK_MESSAGE(count == 1, "parse count");
-        ensure_equals("string value", sd.asString(), expected);
+        CHECK_MESSAGE(sd.asString() == expected, "string value");
     
 }
 
@@ -268,15 +270,10 @@ TEST_CASE("test_15")
 
 TEST_CASE("test_16")
 {
-
-        std::string val = "[f,t,0,1,{'foo':t,'bar':f
+std::string val = "[f,t,0,1,{'foo':t,'bar':f
 }
 
-TEST_CASE("test_16")
-{
 
-    
-}
 
 TEST_CASE("test_1")
 {

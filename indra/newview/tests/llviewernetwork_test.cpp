@@ -192,7 +192,7 @@ TEST_CASE_FIXTURE(viewerNetworkTest, "test_1")
         manager->initialize(TEST_FILENAME);
         // validate that some of the defaults are available.
         std::map<std::string, std::string> known_grids = manager->getKnownGrids();
-        ensure_equals("Known grids is a string-string map of size 2", known_grids.size(), 2);
+        CHECK_MESSAGE(known_grids.size() == 2, "Known grids is a string-string map of size 2");
         ensure_equals("Agni has the right name and label",
                       known_grids[std::string("util.agni.lindenlab.com")],
                       std::string("Second Life Main Grid (Agni)"));

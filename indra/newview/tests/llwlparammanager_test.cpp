@@ -243,8 +243,8 @@ TEST_CASE_FIXTURE(LLWLParamManagerFixture, "test_2")
 {
 
         mTestManager->propagateParameters();
-        ensure_equals("Wrong value from getDomeOffset()", mTestManager->getDomeOffset(), 0.96f);
-        ensure_equals("Wrong value from getDomeRadius()", mTestManager->getDomeRadius(), 15000.f);
+        CHECK_MESSAGE(mTestManager->getDomeOffset() == 0.96f, "Wrong value from getDomeOffset()");
+        CHECK_MESSAGE(mTestManager->getDomeRadius() == 15000.f, "Wrong value from getDomeRadius()");
         ensure_equals("Wrong value from getLightDir()", mTestManager->getLightDir(), LLVector4(-0,0,1,0));
         ensure_equals("Wrong value from getClampedLightDir()", mTestManager->getClampedLightDir(), LLVector4(-0,0,1,0));
         ensure_equals("Wrong value from getRotatedLightDir()", mTestManager->getRotatedLightDir(), LLVector4(0,0,0,1));

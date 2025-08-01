@@ -84,7 +84,7 @@ TEST_CASE_FIXTURE(llstreamqueue_data, "test_2")
         ensure_equals(STRINGIZE("read(\"" << atomic << "\") result"),
                       std::string(third.begin(), third.begin() + readlen), atomic);
         CHECK_MESSAGE(strq.peek(&buffer[0] == buffer.size(, "peek() after read()")), 0);
-        ensure_equals("size() after read()", strq.size(), 0);
+        CHECK_MESSAGE(strq.size() == 0, "size() after read()");
     
 }
 

@@ -148,7 +148,7 @@ TEST_CASE("test_4")
         setter(&aptr, pounceable);
         CHECK_MESSAGE(aptr == &a, "aptr should be &a");
         // should be able to dereference with *
-        ensure_equals("deref with *", (*pounceable).mData, "a");
+        CHECK_MESSAGE((*pounceable).mData == "a", "deref with *");
         // should be able to dereference with ->
         CHECK_MESSAGE(pounceable->mData == "a", "deref with ->");
         // bool operations

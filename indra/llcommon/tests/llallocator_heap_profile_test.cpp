@@ -50,16 +50,16 @@ TEST_CASE_FIXTURE(llallocator_heap_profile_data, "test_1")
 
         prof.parse(sample_win_profile);
 
-        ensure_equals("count lines", prof.mLines.size() , 5);
+        CHECK_MESSAGE(prof.mLines.size()  == 5, "count lines");
         CHECK_MESSAGE(prof.mLines[0].mLiveCount == 2131854U, "alloc counts");
         CHECK_MESSAGE(prof.mLines[0].mLiveSize == 2245710106ULL, "alloc counts");
         CHECK_MESSAGE(prof.mLines[0].mTotalCount == 14069198U, "alloc counts");
         CHECK_MESSAGE(prof.mLines[0].mTotalSize == 4295177308ULL, "alloc counts");
-        ensure_equals("count markers", prof.mLines[0].mTrace.size(), 0);
-        ensure_equals("count markers", prof.mLines[1].mTrace.size(), 0);
-        ensure_equals("count markers", prof.mLines[2].mTrace.size(), 4);
-        ensure_equals("count markers", prof.mLines[3].mTrace.size(), 6);
-        ensure_equals("count markers", prof.mLines[4].mTrace.size(), 7);
+        CHECK_MESSAGE(prof.mLines[0].mTrace.size() == 0, "count markers");
+        CHECK_MESSAGE(prof.mLines[1].mTrace.size() == 0, "count markers");
+        CHECK_MESSAGE(prof.mLines[2].mTrace.size() == 4, "count markers");
+        CHECK_MESSAGE(prof.mLines[3].mTrace.size() == 6, "count markers");
+        CHECK_MESSAGE(prof.mLines[4].mTrace.size() == 7, "count markers");
 
         //prof.dump(std::cout);
     
@@ -70,13 +70,13 @@ TEST_CASE_FIXTURE(llallocator_heap_profile_data, "test_2")
 
         prof.parse(crash_testcase);
 
-        ensure_equals("count lines", prof.mLines.size(), 2);
+        CHECK_MESSAGE(prof.mLines.size() == 2, "count lines");
         CHECK_MESSAGE(prof.mLines[0].mLiveCount == 3U, "alloc counts");
         CHECK_MESSAGE(prof.mLines[0].mLiveSize == 1049652ULL, "alloc counts");
         CHECK_MESSAGE(prof.mLines[0].mTotalCount == 8U, "alloc counts");
         CHECK_MESSAGE(prof.mLines[0].mTotalSize == 1049748ULL, "alloc counts");
-        ensure_equals("count markers", prof.mLines[0].mTrace.size(), 0);
-        ensure_equals("count markers", prof.mLines[1].mTrace.size(), 0);
+        CHECK_MESSAGE(prof.mLines[0].mTrace.size() == 0, "count markers");
+        CHECK_MESSAGE(prof.mLines[1].mTrace.size() == 0, "count markers");
 
         //prof.dump(std::cout);
     

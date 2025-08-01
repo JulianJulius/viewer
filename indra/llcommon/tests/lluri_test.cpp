@@ -42,20 +42,20 @@ namespace tut
                 const char* expectedPath,
                 const char* expectedQuery = "")
         {
-            ensure_equals("scheme",     u.scheme(),     expectedScheme);
-            ensure_equals("opaque",     u.opaque(),     expectedOpaque);
-            ensure_equals("authority",  u.authority(),  expectedAuthority);
-            ensure_equals("path",       u.path(),       expectedPath);
-            ensure_equals("query",      u.query(),      expectedQuery);
+            CHECK_MESSAGE(    u.scheme() ==     expectedScheme, "scheme");
+            CHECK_MESSAGE(    u.opaque() ==     expectedOpaque, "opaque");
+            CHECK_MESSAGE( u.authority() ==  expectedAuthority, "authority");
+            CHECK_MESSAGE(      u.path() ==       expectedPath, "path");
+            CHECK_MESSAGE(     u.query() ==      expectedQuery, "query");
         }
 
         void escapeRoundTrip(const std::string& uri_raw_1)
         {
             std::string uri_esc_1(LLURI::escape(uri_raw_1));
             std::string uri_raw_2(LLURI::unescape(uri_esc_1));
-            ensure_equals("escape/unescape raw", uri_raw_2, uri_raw_1);
+            CHECK_MESSAGE(uri_raw_2 == uri_raw_1, "escape/unescape raw");
             std::string uri_esc_2(LLURI::escape(uri_raw_2));
-            ensure_equals("escape/unescape escaped", uri_esc_2, uri_esc_1);
+            CHECK_MESSAGE(uri_esc_2 == uri_esc_1, "escape/unescape escaped");
         }
     };
 
@@ -69,21 +69,21 @@ namespace tut
     {
         LLURI u("http://abc.com/def/ghi?x=37&y=hello");
 
-        ensure_equals("scheme",     u.scheme(),     "http");
-        ensure_equals("authority",  u.authority(),  "abc.com");
-        ensure_equals("path",       u.path(),       "/def/ghi");
-        ensure_equals("query",      u.query(),      "x=37&y=hello");
+        CHECK_MESSAGE(    u.scheme() ==     "http", "scheme");
+        CHECK_MESSAGE( u.authority() ==  "abc.com", "authority");
+        CHECK_MESSAGE(      u.path() ==       "/def/ghi", "path");
+        CHECK_MESSAGE(     u.query() ==      "x=37&y=hello", "query");
 
-        ensure_equals("host name", u.hostName(), "abc.com");
-        ensure_equals("host port", u.hostPort(), 80);
+        CHECK_MESSAGE(u.hostName() == "abc.com", "host name");
+        CHECK_MESSAGE(u.hostPort() == 80, "host port");
 
         LLSD query = u.queryMap();
-        ensure_equals("query x", query["x"].asInteger(), 37);
-        ensure_equals("query y", query["y"].asString(), "hello");
+        CHECK_MESSAGE(query["x"].asInteger() == 37, "query x");
+        CHECK_MESSAGE(query["y"].asString() == "hello", "query y");
 
         query = LLURI::queryMap("x=22.23&y=https://lindenlab.com/");
-        ensure_equals("query x", query["x"].asReal(), 22.23);
-        ensure_equals("query y", query["y"].asURI().asString(), "https://lindenlab.com/");
+        CHECK_MESSAGE(query["x"].asReal() == 22.23, "query x");
+        CHECK_MESSAGE(query["y"].asURI().asString() == "https://lindenlab.com/", "query y");
     }
 
     template<> template<>
@@ -352,23 +352,23 @@ namespace tut
     {
         LLURI u("secondlife:///app/login?first_name=Testert4&last_name=Tester&web_login_key=test");
         // if secondlife is the scheme, LLURI should parse /app/login as path, with no authority
-        ensure_equals("scheme",     u.scheme(),     "secondlife");
-        ensure_equals("authority",  u.authority(),  "");
-        ensure_equals("path",       u.path(),       "/app/login");
-        ensure_equals("pathmap",    u.pathArray()[0].asString(),    "app");
-        ensure_equals("pathmap",    u.pathArray()[1].asString(),    "login");
-        ensure_equals("query",      u.query(),      "first_name=Testert4&last_name=Tester&web_login_key=test");
-        ensure_equals("query map element", u.queryMap()["last_name"].asString(), "Tester");
+        CHECK_MESSAGE(    u.scheme() ==     "secondlife", "scheme");
+        CHECK_MESSAGE( u.authority() ==  "", "authority");
+        CHECK_MESSAGE(      u.path() ==       "/app/login", "path");
+        CHECK_MESSAGE(   u.pathArray()[0].asString() ==    "app", "pathmap");
+        CHECK_MESSAGE(   u.pathArray()[1].asString() ==    "login", "pathmap");
+        CHECK_MESSAGE(     u.query() ==      "first_name=Testert4&last_name=Tester&web_login_key=test", "query");
+        CHECK_MESSAGE(u.queryMap()["last_name"].asString() == "Tester", "query map element");
 
         u = LLURI("secondlife://Da Boom/128/128/128");
         // if secondlife is the scheme, LLURI should parse /128/128/128 as path, with Da Boom as authority
-        ensure_equals("scheme",     u.scheme(),     "secondlife");
-        ensure_equals("authority",  u.authority(),  "Da Boom");
-        ensure_equals("path",       u.path(),       "/128/128/128");
-        ensure_equals("pathmap",    u.pathArray()[0].asString(),    "128");
-        ensure_equals("pathmap",    u.pathArray()[1].asString(),    "128");
-        ensure_equals("pathmap",    u.pathArray()[2].asString(),    "128");
-        ensure_equals("query",      u.query(),      "");
+        CHECK_MESSAGE(    u.scheme() ==     "secondlife", "scheme");
+        CHECK_MESSAGE( u.authority() ==  "Da Boom", "authority");
+        CHECK_MESSAGE(      u.path() ==       "/128/128/128", "path");
+        CHECK_MESSAGE(   u.pathArray()[0].asString() ==    "128", "pathmap");
+        CHECK_MESSAGE(   u.pathArray()[1].asString() ==    "128", "pathmap");
+        CHECK_MESSAGE(   u.pathArray()[2].asString() ==    "128", "pathmap");
+        CHECK_MESSAGE(     u.query() ==      "", "query");
     }
 
     template<> template<>
@@ -376,12 +376,12 @@ namespace tut
     {
         set_test_name("Parse about: schemes");
         LLURI u("about:blank?redirect-http-hack=secondlife%3A%2F%2F%2Fapp%2Flogin%3Ffirst_name%3DCallum%26last_name%3DLinden%26location%3Dspecify%26grid%3Dvaak%26region%3D%2FMorris%2F128%2F128%26web_login_key%3Defaa4795-c2aa-4c58-8966-763c27931e78");
-        ensure_equals("scheme",     u.scheme(),     "about");
-        ensure_equals("authority",  u.authority(),  "");
-        ensure_equals("path",       u.path(),       "blank");
-        ensure_equals("pathmap",    u.pathArray()[0].asString(),    "blank");
-        ensure_equals("query",      u.query(),      "redirect-http-hack=secondlife:///app/login?first_name=Callum&last_name=Linden&location=specify&grid=vaak&region=/Morris/128/128&web_login_key=efaa4795-c2aa-4c58-8966-763c27931e78");
-        ensure_equals("query map element", u.queryMap()["redirect-http-hack"].asString(), "secondlife:///app/login?first_name=Callum&last_name=Linden&location=specify&grid=vaak&region=/Morris/128/128&web_login_key=efaa4795-c2aa-4c58-8966-763c27931e78");
+        CHECK_MESSAGE(    u.scheme() ==     "about", "scheme");
+        CHECK_MESSAGE( u.authority() ==  "", "authority");
+        CHECK_MESSAGE(      u.path() ==       "blank", "path");
+        CHECK_MESSAGE(   u.pathArray()[0].asString() ==    "blank", "pathmap");
+        CHECK_MESSAGE(     u.query() ==      "redirect-http-hack=secondlife:///app/login?first_name=Callum&last_name=Linden&location=specify&grid=vaak&region=/Morris/128/128&web_login_key=efaa4795-c2aa-4c58-8966-763c27931e78", "query");
+        CHECK_MESSAGE(u.queryMap()["redirect-http-hack"].asString() == "secondlife:///app/login?first_name=Callum&last_name=Linden&location=specify&grid=vaak&region=/Morris/128/128&web_login_key=efaa4795-c2aa-4c58-8966-763c27931e78", "query map element");
     }
 
     template<> template<>

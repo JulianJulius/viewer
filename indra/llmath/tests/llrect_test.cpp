@@ -44,15 +44,15 @@ TEST_CASE("test_1")
 
         // default constructor
         LLRect rect1;
-        ensure_equals("Empty rect", rect1.getValue(), zero);
+        CHECK_MESSAGE(rect1.getValue() == zero, "Empty rect");
         CHECK_MESSAGE(rect1.mLeft == 0, "Empty rect left");
         CHECK_MESSAGE(rect1.mTop == 0, "Empty rect top");
         CHECK_MESSAGE(rect1.mRight == 0, "Empty rect right");
         CHECK_MESSAGE(rect1.mBottom == 0, "Empty rect bottom");
-        ensure_equals("Empty rect width", rect1.getWidth(), 0);
-        ensure_equals("Empty rect height", rect1.getHeight(), 0);
-        ensure_equals("Empty rect centerx", rect1.getCenterX(), 0);
-        ensure_equals("Empty rect centery", rect1.getCenterY(), 0);
+        CHECK_MESSAGE(rect1.getWidth() == 0, "Empty rect width");
+        CHECK_MESSAGE(rect1.getHeight() == 0, "Empty rect height");
+        CHECK_MESSAGE(rect1.getCenterX() == 0, "Empty rect centerx");
+        CHECK_MESSAGE(rect1.getCenterY() == 0, "Empty rect centery");
     
 }
 
@@ -67,15 +67,15 @@ TEST_CASE("test_2")
         zerof.append(0.0f); zerof.append(0.0f); zerof.append(0.0f); zerof.append(0.0f);
 
         LLRectf rect2;
-        ensure_equals("Empty rectf", rect2.getValue(), zerof);
+        CHECK_MESSAGE(rect2.getValue() == zerof, "Empty rectf");
         CHECK_MESSAGE(rect2.mLeft == 0.0f, "Empty rectf left");
         CHECK_MESSAGE(rect2.mTop == 0.0f, "Empty rectf top");
         CHECK_MESSAGE(rect2.mRight == 0.0f, "Empty rectf right");
         CHECK_MESSAGE(rect2.mBottom == 0.0f, "Empty rectf bottom");
-        ensure_equals("Empty rectf width", rect2.getWidth(), 0.0f);
-        ensure_equals("Empty rectf height", rect2.getHeight(), 0.0f);
-        ensure_equals("Empty rectf centerx", rect2.getCenterX(), 0.0f);
-        ensure_equals("Empty rectf centery", rect2.getCenterY(), 0.0f);
+        CHECK_MESSAGE(rect2.getWidth() == 0.0f, "Empty rectf width");
+        CHECK_MESSAGE(rect2.getHeight() == 0.0f, "Empty rectf height");
+        CHECK_MESSAGE(rect2.getCenterX() == 0.0f, "Empty rectf centerx");
+        CHECK_MESSAGE(rect2.getCenterY() == 0.0f, "Empty rectf centery");
     
 }
 
@@ -91,10 +91,10 @@ TEST_CASE("test_3")
         CHECK_MESSAGE(rect3.mTop == 6, "Default rect top");
         CHECK_MESSAGE(rect3.mRight == 7, "Default rect right");
         CHECK_MESSAGE(rect3.mBottom == 2, "Default rect bottom");
-        ensure_equals("Default rect width", rect3.getWidth(), 6);
-        ensure_equals("Default rect height", rect3.getHeight(), 4);
-        ensure_equals("Default rect centerx", rect3.getCenterX(), 4);
-        ensure_equals("Default rect centery", rect3.getCenterY(), 4);
+        CHECK_MESSAGE(rect3.getWidth() == 6, "Default rect width");
+        CHECK_MESSAGE(rect3.getHeight() == 4, "Default rect height");
+        CHECK_MESSAGE(rect3.getCenterX() == 4, "Default rect centerx");
+        CHECK_MESSAGE(rect3.getCenterY() == 4, "Default rect centery");
     
 }
 
@@ -110,10 +110,10 @@ TEST_CASE("test_4")
         CHECK_MESSAGE(rect4.mTop == 5.0f, "Default rectf top");
         CHECK_MESSAGE(rect4.mRight == 6.0f, "Default rectf right");
         CHECK_MESSAGE(rect4.mBottom == 2.0f, "Default rectf bottom");
-        ensure_equals("Default rectf width", rect4.getWidth(), 5.0f);
-        ensure_equals("Default rectf height", rect4.getHeight(), 3.0f);
-        ensure_equals("Default rectf centerx", rect4.getCenterX(), 3.5f);
-        ensure_equals("Default rectf centery", rect4.getCenterY(), 3.5f);
+        CHECK_MESSAGE(rect4.getWidth() == 5.0f, "Default rectf width");
+        CHECK_MESSAGE(rect4.getHeight() == 3.0f, "Default rectf height");
+        CHECK_MESSAGE(rect4.getCenterX() == 3.5f, "Default rectf centerx");
+        CHECK_MESSAGE(rect4.getCenterY() == 3.5f, "Default rectf centery");
     
 }
 
@@ -131,10 +131,10 @@ TEST_CASE("test_5")
         CHECK_MESSAGE(rect5.mTop == 0.0f, "LLSD rectf top");
         CHECK_MESSAGE(rect5.mRight == 0.0f, "LLSD rectf right");
         CHECK_MESSAGE(rect5.mBottom == -1.0f, "LLSD rectf bottom");
-        ensure_equals("LLSD rectf width", rect5.getWidth(), 1.0f);
-        ensure_equals("LLSD rectf height", rect5.getHeight(), 1.0f);
-        ensure_equals("LLSD rectf centerx", rect5.getCenterX(), -0.5f);
-        ensure_equals("LLSD rectf centery", rect5.getCenterY(), -0.5f);
+        CHECK_MESSAGE(rect5.getWidth() == 1.0f, "LLSD rectf width");
+        CHECK_MESSAGE(rect5.getHeight() == 1.0f, "LLSD rectf height");
+        CHECK_MESSAGE(rect5.getCenterX() == -0.5f, "LLSD rectf centerx");
+        CHECK_MESSAGE(rect5.getCenterY() == -0.5f, "LLSD rectf centery");
     
 }
 
@@ -155,10 +155,10 @@ TEST_CASE("test_6")
         CHECK_MESSAGE(rectf.mTop == 1.0f, "Member-set rectf top");
         CHECK_MESSAGE(rectf.mRight == 1.0f, "Member-set rectf right");
         CHECK_MESSAGE(rectf.mBottom == -1.0f, "Member-set rectf bottom");
-        ensure_equals("Member-set rectf width", rectf.getWidth(), 2.0f);
-        ensure_equals("Member-set rectf height", rectf.getHeight(), 2.0f);
-        ensure_equals("Member-set rectf centerx", rectf.getCenterX(), 0.0f);
-        ensure_equals("Member-set rectf centery", rectf.getCenterY(), 0.0f);
+        CHECK_MESSAGE(rectf.getWidth() == 2.0f, "Member-set rectf width");
+        CHECK_MESSAGE(rectf.getHeight() == 2.0f, "Member-set rectf height");
+        CHECK_MESSAGE(rectf.getCenterX() == 0.0f, "Member-set rectf centerx");
+        CHECK_MESSAGE(rectf.getCenterY() == 0.0f, "Member-set rectf centery");
     
 }
 
@@ -178,10 +178,10 @@ TEST_CASE("test_7")
         CHECK_MESSAGE(rectf.mTop == 0.0f, "setValue() rectf top");
         CHECK_MESSAGE(rectf.mRight == 0.0f, "setValue() rectf right");
         CHECK_MESSAGE(rectf.mBottom == -1.0f, "setValue() rectf bottom");
-        ensure_equals("setValue() rectf width", rectf.getWidth(), 1.0f);
-        ensure_equals("setValue() rectf height", rectf.getHeight(), 1.0f);
-        ensure_equals("setValue() rectf centerx", rectf.getCenterX(), -0.5f);
-        ensure_equals("setValue() rectf centery", rectf.getCenterY(), -0.5f);
+        CHECK_MESSAGE(rectf.getWidth() == 1.0f, "setValue() rectf width");
+        CHECK_MESSAGE(rectf.getHeight() == 1.0f, "setValue() rectf height");
+        CHECK_MESSAGE(rectf.getCenterX() == -0.5f, "setValue() rectf centerx");
+        CHECK_MESSAGE(rectf.getCenterY() == -0.5f, "setValue() rectf centery");
     
 }
 
@@ -199,10 +199,10 @@ TEST_CASE("test_8")
         CHECK_MESSAGE(rect.mTop == 90, "set() rectf top");
         CHECK_MESSAGE(rect.mRight == 70, "set() rectf right");
         CHECK_MESSAGE(rect.mBottom == 10, "set() rectf bottom");
-        ensure_equals("set() rectf width", rect.getWidth(), 60);
-        ensure_equals("set() rectf height", rect.getHeight(), 80);
-        ensure_equals("set() rectf centerx", rect.getCenterX(), 40);
-        ensure_equals("set() rectf centery", rect.getCenterY(), 50);
+        CHECK_MESSAGE(rect.getWidth() == 60, "set() rectf width");
+        CHECK_MESSAGE(rect.getHeight() == 80, "set() rectf height");
+        CHECK_MESSAGE(rect.getCenterX() == 40, "set() rectf centerx");
+        CHECK_MESSAGE(rect.getCenterY() == 50, "set() rectf centery");
     
 }
 
@@ -220,10 +220,10 @@ TEST_CASE("test_9")
         CHECK_MESSAGE(rectf.mTop == 1.0f, "setOriginAndSize() rectf top");
         CHECK_MESSAGE(rectf.mRight == 2.0f, "setOriginAndSize() rectf right");
         CHECK_MESSAGE(rectf.mBottom == 0.0f, "setOriginAndSize() rectf bottom");
-        ensure_equals("setOriginAndSize() rectf width", rectf.getWidth(), 2.0f);
-        ensure_equals("setOriginAndSize() rectf height", rectf.getHeight(), 1.0f);
-        ensure_equals("setOriginAndSize() rectf centerx", rectf.getCenterX(), 1.0f);
-        ensure_equals("setOriginAndSize() rectf centery", rectf.getCenterY(), 0.5f);
+        CHECK_MESSAGE(rectf.getWidth() == 2.0f, "setOriginAndSize() rectf width");
+        CHECK_MESSAGE(rectf.getHeight() == 1.0f, "setOriginAndSize() rectf height");
+        CHECK_MESSAGE(rectf.getCenterX() == 1.0f, "setOriginAndSize() rectf centerx");
+        CHECK_MESSAGE(rectf.getCenterY() == 0.5f, "setOriginAndSize() rectf centery");
     
 }
 
@@ -241,10 +241,10 @@ TEST_CASE("test_10")
         CHECK_MESSAGE(rectf.mTop == 0.0f, "setLeftTopAndSize() rectf top");
         CHECK_MESSAGE(rectf.mRight == 2.0f, "setLeftTopAndSize() rectf right");
         CHECK_MESSAGE(rectf.mBottom == -1.0f, "setLeftTopAndSize() rectf bottom");
-        ensure_equals("setLeftTopAndSize() rectf width", rectf.getWidth(), 2.0f);
-        ensure_equals("setLeftTopAndSize() rectf height", rectf.getHeight(), 1.0f);
-        ensure_equals("setLeftTopAndSize() rectf centerx", rectf.getCenterX(), 1.0f);
-        ensure_equals("setLeftTopAndSize() rectf centery", rectf.getCenterY(), -0.5f);
+        CHECK_MESSAGE(rectf.getWidth() == 2.0f, "setLeftTopAndSize() rectf width");
+        CHECK_MESSAGE(rectf.getHeight() == 1.0f, "setLeftTopAndSize() rectf height");
+        CHECK_MESSAGE(rectf.getCenterX() == 1.0f, "setLeftTopAndSize() rectf centerx");
+        CHECK_MESSAGE(rectf.getCenterY() == -0.5f, "setLeftTopAndSize() rectf centery");
     
 }
 
@@ -262,10 +262,10 @@ TEST_CASE("test_11")
         CHECK_MESSAGE(rectf.mTop == 0.5f, "setCenterAndSize() rectf top");
         CHECK_MESSAGE(rectf.mRight == 1.0f, "setCenterAndSize() rectf right");
         CHECK_MESSAGE(rectf.mBottom == -0.5f, "setCenterAndSize() rectf bottom");
-        ensure_equals("setCenterAndSize() rectf width", rectf.getWidth(), 2.0f);
-        ensure_equals("setCenterAndSize() rectf height", rectf.getHeight(), 1.0f);
-        ensure_equals("setCenterAndSize() rectf centerx", rectf.getCenterX(), 0.0f);
-        ensure_equals("setCenterAndSize() rectf centery", rectf.getCenterY(), 0.0f);
+        CHECK_MESSAGE(rectf.getWidth() == 2.0f, "setCenterAndSize() rectf width");
+        CHECK_MESSAGE(rectf.getHeight() == 1.0f, "setCenterAndSize() rectf height");
+        CHECK_MESSAGE(rectf.getCenterX() == 0.0f, "setCenterAndSize() rectf centerx");
+        CHECK_MESSAGE(rectf.getCenterY() == 0.0f, "setCenterAndSize() rectf centery");
     
 }
 

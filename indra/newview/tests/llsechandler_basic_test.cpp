@@ -205,33 +205,33 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_2")
         //std::ostringstream llsd_value;
         //llsd_value << LLSDOStreamer<LLSDNotationFormatter>(llsd_cert) << std::endl;
         LL_DEBUGS() << "test 1 cert " << llsd_cert << LL_ENDL;
-        ensure_equals("Issuer Name/commonName", (std::string)llsd_cert["issuer_name"]["commonName"], "Integration Test Intermediate CA");
-        ensure_equals("Issuer Name/countryName", (std::string)llsd_cert["issuer_name"]["countryName"], "US");
-        ensure_equals("Issuer Name/state", (std::string)llsd_cert["issuer_name"]["stateOrProvinceName"], "California");
-        ensure_equals("Issuer Name/org name", (std::string)llsd_cert["issuer_name"]["organizationName"], "Linden Lab");
-        ensure_equals("Issuer Name/org unit", (std::string)llsd_cert["issuer_name"]["organizationalUnitName"], "Second Life Engineering");
+        CHECK_MESSAGE((std::string)llsd_cert["issuer_name"]["commonName"] == "Integration Test Intermediate CA", "Issuer Name/commonName");
+        CHECK_MESSAGE((std::string)llsd_cert["issuer_name"]["countryName"] == "US", "Issuer Name/countryName");
+        CHECK_MESSAGE((std::string)llsd_cert["issuer_name"]["stateOrProvinceName"] == "California", "Issuer Name/state");
+        CHECK_MESSAGE((std::string)llsd_cert["issuer_name"]["organizationName"] == "Linden Lab", "Issuer Name/org name");
+        CHECK_MESSAGE((std::string)llsd_cert["issuer_name"]["organizationalUnitName"] == "Second Life Engineering", "Issuer Name/org unit");
         ensure_equals("Issuer name string", (std::string)llsd_cert["issuer_name_string"],
                       "emailAddress=noreply@lindenlab.com,CN=Integration Test Intermediate CA,OU=Second Life Engineering,O=Linden Lab,L=San Francisco,ST=California,C=US");
         ensure_equals("subject Name/commonName", (std::string)llsd_cert["subject_name"]["commonName"],
                       "Integration Test Server Cert");
-        ensure_equals("subject Name/countryName", (std::string)llsd_cert["subject_name"]["countryName"], "US");
-        ensure_equals("subject Name/state", (std::string)llsd_cert["subject_name"]["stateOrProvinceName"], "California");
-        ensure_equals("subject Name/localityName", (std::string)llsd_cert["subject_name"]["localityName"], "San Francisco");
-        ensure_equals("subject Name/org name", (std::string)llsd_cert["subject_name"]["organizationName"], "Linden Lab");
+        CHECK_MESSAGE((std::string)llsd_cert["subject_name"]["countryName"] == "US", "subject Name/countryName");
+        CHECK_MESSAGE((std::string)llsd_cert["subject_name"]["stateOrProvinceName"] == "California", "subject Name/state");
+        CHECK_MESSAGE((std::string)llsd_cert["subject_name"]["localityName"] == "San Francisco", "subject Name/localityName");
+        CHECK_MESSAGE((std::string)llsd_cert["subject_name"]["organizationName"] == "Linden Lab", "subject Name/org name");
         ensure_equals("subjectName/org unit",
                (std::string)llsd_cert["subject_name"]["organizationalUnitName"], "Second Life Engineering");
 
         ensure_equals("subject name string",
                (std::string)llsd_cert["subject_name_string"],
                       "emailAddress=noreply@lindenlab.com,CN=Integration Test Server Cert,OU=Second Life Engineering,O=Linden Lab,L=San Francisco,ST=California,C=US");
-        ensure_equals("serial number", (std::string)llsd_cert["serial_number"], "9E8D3413E79BF931");
-        ensure_equals("valid from", (std::string)llsd_cert["valid_from"], "2024-07-23T11:46:39Z");
-        ensure_equals("valid to", (std::string)llsd_cert["valid_to"], "2034-07-21T11:46:39Z");
+        CHECK_MESSAGE((std::string)llsd_cert["serial_number"] == "9E8D3413E79BF931", "serial number");
+        CHECK_MESSAGE((std::string)llsd_cert["valid_from"] == "2024-07-23T11:46:39Z", "valid from");
+        CHECK_MESSAGE((std::string)llsd_cert["valid_to"] == "2034-07-21T11:46:39Z", "valid to");
         LLSD expectedKeyUsage = LLSD::emptyArray();
         expectedKeyUsage.append(LLSD((std::string)"digitalSignature"));
         expectedKeyUsage.append(LLSD((std::string)"keyEncipherment"));
         CHECK_MESSAGE(valueCompareLLSD(llsd_cert["keyUsage"], expectedKeyUsage, "key usage"));
-        ensure_equals("basic constraints", llsd_cert["basicConstraints"]["CA"].asInteger(), 0);
+        CHECK_MESSAGE(llsd_cert["basicConstraints"]["CA"].asInteger() == 0, "basic constraints");
 
         CHECK_MESSAGE(!X509_cmp(mX509ChildCert, test_cert->getOpenSSLX509(, "x509 is equal")));
     
@@ -266,9 +266,9 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_3")
         LLSD data = handler->getProtectedData("test_data_type", "test_data_id");
 
 
-        ensure_equals("retrieve existing data1", (std::string)data["data1"], "test_data_1");
-        ensure_equals("retrieve existing data2", (std::string)data["data2"], "test_data_2");
-        ensure_equals("retrieve existing data3", (std::string)data["data3"]["elem1"], "test element1");
+        CHECK_MESSAGE((std::string)data["data1"] == "test_data_1", "retrieve existing data1");
+        CHECK_MESSAGE((std::string)data["data2"] == "test_data_2", "retrieve existing data2");
+        CHECK_MESSAGE((std::string)data["data3"]["elem1"] == "test element1", "retrieve existing data3");
 
         // data storage
         LLSD store_data = LLSD::emptyMap();
@@ -282,22 +282,22 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_3")
 
         data = handler->getProtectedData("test_data_type", "test_data_id");
         // verify no overwrite of existing data
-        ensure_equals("verify no overwrite 1", (std::string)data["data1"], "test_data_1");
-        ensure_equals("verify no overwrite 2", (std::string)data["data2"], "test_data_2");
-        ensure_equals("verify no overwrite 3", (std::string)data["data3"]["elem1"], "test element1");
+        CHECK_MESSAGE((std::string)data["data1"] == "test_data_1", "verify no overwrite 1");
+        CHECK_MESSAGE((std::string)data["data2"] == "test_data_2", "verify no overwrite 2");
+        CHECK_MESSAGE((std::string)data["data3"]["elem1"] == "test element1", "verify no overwrite 3");
 
         // verify written data is good
         data = handler->getProtectedData("test_data_type", "test_data_id1");
-        ensure_equals("verify stored data1", (std::string)data["store_data1"], "test_store_data1");
-        ensure_equals("verify stored data2", (int)data["store_data2"], 27);
-        ensure_equals("verify stored data3", (std::string)data["store_data3"]["subelem1"], "test_subelem1");
+        CHECK_MESSAGE((std::string)data["store_data1"] == "test_store_data1", "verify stored data1");
+        CHECK_MESSAGE((int)data["store_data2"] == 27, "verify stored data2");
+        CHECK_MESSAGE((std::string)data["store_data3"]["subelem1"] == "test_subelem1", "verify stored data3");
 
         // verify overwrite works
         handler->setProtectedData("test_data_type", "test_data_id", store_data);
         data = handler->getProtectedData("test_data_type", "test_data_id");
-        ensure_equals("verify overwrite stored data1", (std::string)data["store_data1"], "test_store_data1");
-        ensure_equals("verify overwrite stored data2", (int)data["store_data2"], 27);
-        ensure_equals("verify overwrite stored data3", (std::string)data["store_data3"]["subelem1"], "test_subelem1");
+        CHECK_MESSAGE((std::string)data["store_data1"] == "test_store_data1", "verify overwrite stored data1");
+        CHECK_MESSAGE((int)data["store_data2"] == 27, "verify overwrite stored data2");
+        CHECK_MESSAGE((std::string)data["store_data3"]["subelem1"] == "test_subelem1", "verify overwrite stored data3");
 
         // verify other datatype doesn't conflict
         store_data["store_data3"] = "test_store_data3";
@@ -307,9 +307,9 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_3")
 
         handler->setProtectedData("test_data_type1", "test_data_id", store_data);
         data = handler->getProtectedData("test_data_type1", "test_data_id");
-        ensure_equals("verify datatype stored data3", (std::string)data["store_data3"], "test_store_data3");
-        ensure_equals("verify datatype stored data4", (int)data["store_data4"], 28);
-        ensure_equals("verify datatype stored data5", (std::string)data["store_data5"]["subelem2"], "test_subelem2");
+        CHECK_MESSAGE((std::string)data["store_data3"] == "test_store_data3", "verify datatype stored data3");
+        CHECK_MESSAGE((int)data["store_data4"] == 28, "verify datatype stored data4");
+        CHECK_MESSAGE((std::string)data["store_data5"]["subelem2"] == "test_subelem2", "verify datatype stored data5");
 
         // test data not found
 
@@ -322,9 +322,9 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_3")
         handler->init();
 
         data = handler->getProtectedData("test_data_type1", "test_data_id");
-        ensure_equals("verify datatype stored data3a", (std::string)data["store_data3"], "test_store_data3");
-        ensure_equals("verify datatype stored data4a", (int)data["store_data4"], 28);
-        ensure_equals("verify datatype stored data5a", (std::string)data["store_data5"]["subelem2"], "test_subelem2");
+        CHECK_MESSAGE((std::string)data["store_data3"] == "test_store_data3", "verify datatype stored data3a");
+        CHECK_MESSAGE((int)data["store_data4"] == 28, "verify datatype stored data4a");
+        CHECK_MESSAGE((std::string)data["store_data5"]["subelem2"] == "test_subelem2", "verify datatype stored data5a");
 
         // rewrite the initial file to verify reloads
         handler = NULL;
@@ -479,16 +479,16 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_5")
 
         // validate create from empty vector
         LLPointer<LLBasicCertificateVector> test_vector = new LLBasicCertificateVector();
-        ensure_equals("when loading with nothing, we should result in no certs in vector", test_vector->size(), 0);
+        CHECK_MESSAGE(test_vector->size() == 0, "when loading with nothing, we should result in no certs in vector");
 
         test_vector->add(new LLBasicCertificate(mPemTestCert, &mValidationDate));
-        ensure_equals("one element in vector", test_vector->size(), 1);
+        CHECK_MESSAGE(test_vector->size() == 1, "one element in vector");
         test_vector->add(new LLBasicCertificate(mPemChildCert, &mValidationDate));
-        ensure_equals("two elements in vector after add", test_vector->size(), 2);
+        CHECK_MESSAGE(test_vector->size() == 2, "two elements in vector after add");
 
         // add duplicate; should be a no-op (and log at DEBUG level)
         test_vector->add(new LLBasicCertificate(mPemChildCert, &mValidationDate));
-        ensure_equals("two elements in vector after re-add", test_vector->size(), 2);
+        CHECK_MESSAGE(test_vector->size() == 2, "two elements in vector after re-add");
 
         // validate order
         X509* test_cert = (*test_vector)[0]->getOpenSSLX509();
@@ -505,29 +505,29 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_5")
         LLBasicCertificateVector::iterator current_cert = test_vector->begin();
         LLBasicCertificateVector::iterator copy_current_cert = current_cert;
         // operator++(int)
-        CHECK_MESSAGE(*current_cert++ == (*test_vector, "validate iterator++ element in vector is expected cert")[0]);
-        CHECK_MESSAGE(*current_cert++ == (*test_vector, "validate 2nd iterator++ element in vector is expected cert")[1]);
+        CHECK_MESSAGE(*current_cert++ == (*test_vector) [0], "validate iterator++ element in vector is expected cert");
+        CHECK_MESSAGE(*current_cert++ == (*test_vector) [1], "validate 2nd iterator++ element in vector is expected cert");
         CHECK_MESSAGE(current_cert == test_vector->end(, "validate end iterator++"));
 
         // copy
-        CHECK_MESSAGE(*copy_current_cert == (*test_vector, "validate copy iterator element in vector is expected cert")[0]);
+        CHECK_MESSAGE(*copy_current_cert == (*test_vector) [0], "validate copy iterator element in vector is expected cert");
 
         // operator--(int)
         current_cert--;
-        CHECK_MESSAGE(*current_cert-- == (*test_vector, "validate iterator-- element in vector is expected cert")[1]);
-        CHECK_MESSAGE(*current_cert == (*test_vector, "validate iterator-- element in vector is expected cert")[0]);
+        CHECK_MESSAGE(*current_cert-- == (*test_vector) [1], "validate iterator-- element in vector is expected cert");
+        CHECK_MESSAGE(*current_cert == (*test_vector) [0], "validate iterator-- element in vector is expected cert");
 
         CHECK_MESSAGE(current_cert == test_vector->begin(, "begin iterator is equal"));
 
         // operator++
-        CHECK_MESSAGE(*++current_cert == (*test_vector, "validate ++iterator element in vector is expected cert")[1]);
+        CHECK_MESSAGE(*++current_cert == (*test_vector) [1], "validate ++iterator element in vector is expected cert");
         CHECK_MESSAGE(++current_cert == test_vector->end(, "end of cert vector after ++iterator"));
         // operator--
-        CHECK_MESSAGE(*--current_cert == (*test_vector, "validate --iterator element in vector is expected cert")[1]);
-        CHECK_MESSAGE(*--current_cert == (*test_vector, "validate 2nd --iterator element in vector is expected cert")[0]);
+        CHECK_MESSAGE(*--current_cert == (*test_vector) [1], "validate --iterator element in vector is expected cert");
+        CHECK_MESSAGE(*--current_cert == (*test_vector) [0], "validate 2nd --iterator element in vector is expected cert");
 
         test_vector->erase(test_vector->begin());
-        ensure_equals("one element in store after remove", test_vector->size(), 1);
+        CHECK_MESSAGE(test_vector->size() == 1, "one element in store after remove");
         test_cert = (*test_vector)[0]->getOpenSSLX509();
         CHECK_MESSAGE(!X509_cmp(test_cert, mX509ChildCert, "Child cert remains"));
         X509_free(test_cert);
@@ -535,7 +535,7 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_5")
         // validate insert
         test_vector->insert(test_vector->begin(), new LLBasicCertificate(mPemIntermediateCert, &mValidationDate));
         test_cert = (*test_vector)[0]->getOpenSSLX509();
-        ensure_equals("two elements in store after insert", test_vector->size(), 2);
+        CHECK_MESSAGE(test_vector->size() == 2, "two elements in store after insert");
         CHECK_MESSAGE(!X509_cmp(test_cert, mX509IntermediateCert, "validate intermediate cert was inserted at first position"));
         X509_free(test_cert);
         test_cert = (*test_vector)[1]->getOpenSSLX509();
@@ -563,13 +563,13 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_6")
         // validate load with nothing
         LLFile::remove("mycertstore.pem");
         LLPointer<LLBasicCertificateStore> test_store = new LLBasicCertificateStore("mycertstore.pem");
-        ensure_equals("when loading with nothing, we should result in no certs in store", test_store->size(), 0);
+        CHECK_MESSAGE(test_store->size() == 0, "when loading with nothing, we should result in no certs in store");
 
         // validate load with empty file
         test_store->save();
         test_store = NULL;
         test_store = new LLBasicCertificateStore("mycertstore.pem");
-        ensure_equals("when loading with nothing, we should result in no certs in store", test_store->size(), 0);
+        CHECK_MESSAGE(test_store->size() == 0, "when loading with nothing, we should result in no certs in store");
         test_store=NULL;
 
         // instantiate a cert store from a file
@@ -578,7 +578,7 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_6")
         certstorefile.close();
         // validate loaded certs
         test_store = new LLBasicCertificateStore("mycertstore.pem");
-        ensure_equals("two elements in store", test_store->size(), 2);
+        CHECK_MESSAGE(test_store->size() == 2, "two elements in store");
 
         // operator[]
         X509* test_cert = (*test_store)[0]->getOpenSSLX509();
@@ -595,7 +595,7 @@ TEST_CASE_FIXTURE(sechandler_basic_test, "test_6")
         test_store->save();
         test_store = NULL;
         test_store = new LLBasicCertificateStore("mycertstore.pem");
-        ensure_equals("two elements in store after save", test_store->size(), 2);
+        CHECK_MESSAGE(test_store->size() == 2, "two elements in store after save");
         LLCertificateStore::iterator current_cert = test_store->begin();
         test_cert = (*current_cert)->getOpenSSLX509();
         CHECK_MESSAGE(!X509_cmp(test_cert, mX509ChildCert, "validate first element in store is expected cert"));

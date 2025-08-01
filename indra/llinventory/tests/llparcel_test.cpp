@@ -46,8 +46,8 @@ TEST_CASE("test_1")
             const std::string& catuistring =  LLParcel::getCategoryUIString(LLParcel::ECategory(i));
             CHECK_MESSAGE(!catuistring.empty(, "LLParcel::getCategoryUIString(i)"));
 
-            ensure_equals("LLParcel::ECategory mapping of string back to enum", LLParcel::getCategoryFromString(catstring), i);
-            ensure_equals("LLParcel::ECategory mapping of uistring back to enum", LLParcel::getCategoryFromUIString(catuistring), i);
+            CHECK_MESSAGE(LLParcel::getCategoryFromString(catstring) == i, "LLParcel::ECategory mapping of string back to enum");
+            CHECK_MESSAGE(LLParcel::getCategoryFromUIString(catuistring) == i, "LLParcel::ECategory mapping of uistring back to enum");
         
 }
 

@@ -31,6 +31,8 @@
 #include "../llbitpack.h"
 
 #include "../test/lldoctest.h"
+#include <cstring>
+#include <algorithm>
 
 
 TEST_SUITE("LLBitPack") {
@@ -53,7 +55,7 @@ TEST_CASE("test_1")
         LLBitPack bitunpack(packbuffer, pack_bufsize*8);
         unpack_bufsize = bitunpack.bitUnpack(unpackbuffer, len*8);
         CHECK_MESSAGE(len == unpack_bufsize, "bitPack: unpack size should be same as string size prior to pack");
-        ensure_memory_matches("str->bitPack->bitUnpack should be equal to string", str, len, unpackbuffer, unpack_bufsize);
+        CHECK_MESSAGE(memcmp(str, unpackbuffer, std::min(len, unpack_bufsize)) == 0, "str->bitPack->bitUnpack should be equal to string");
     
 }
 
@@ -73,19 +75,19 @@ TEST_CASE("test_2")
 
         LLBitPack bitunpack(packbuffer, pack_bufsize*8);
         bitunpack.bitUnpack(&unpackbuffer[0], 8);
-        CHECK_MESSAGE(unpackbuffer[0] == (U8, "bitPack: individual unpack: 0") str[0]);
-        bitunpack.bitUnpack(&unpackbuffer[0], 8);
-        CHECK_MESSAGE(unpackbuffer[0] == (U8, "bitPack: individual unpack: 1") str[1]);
-        bitunpack.bitUnpack(&unpackbuffer[0], 8);
-        CHECK_MESSAGE(unpackbuffer[0] == (U8, "bitPack: individual unpack: 2") str[2]);
-        bitunpack.bitUnpack(&unpackbuffer[0], 8);
-        CHECK_MESSAGE(unpackbuffer[0] == (U8, "bitPack: individual unpack: 3") str[3]);
-        bitunpack.bitUnpack(&unpackbuffer[0], 8);
-        CHECK_MESSAGE(unpackbuffer[0] == (U8, "bitPack: individual unpack: 4") str[4]);
-        bitunpack.bitUnpack(&unpackbuffer[0], 8);
-        CHECK_MESSAGE(unpackbuffer[0] == (U8, "bitPack: individual unpack: 5") str[5]);
-        bitunpack.bitUnpack(unpackbuffer, 8*4); // Life
-        ensure_memory_matches("bitPack: 4 bytes unpack:", unpackbuffer, 4, str+6, 4);
+        CHECK_MESSAGE(unpackbuffer[0] == (U8) str[0]) ;
+        bitunpack.bitUnpack(&unpackbuffer[0], 8, "bitPack: individual unpack: 0");
+        CHECK_MESSAGE(unpackbuffer[0] == (U8) str[1]) ;
+        bitunpack.bitUnpack(&unpackbuffer[0], 8, "bitPack: individual unpack: 1");
+        CHECK_MESSAGE(unpackbuffer[0] == (U8) str[2]) ;
+        bitunpack.bitUnpack(&unpackbuffer[0], 8, "bitPack: individual unpack: 2");
+        CHECK_MESSAGE(unpackbuffer[0] == (U8) str[3]) ;
+        bitunpack.bitUnpack(&unpackbuffer[0], 8, "bitPack: individual unpack: 3");
+        CHECK_MESSAGE(unpackbuffer[0] == (U8) str[4]) ;
+        bitunpack.bitUnpack(&unpackbuffer[0], 8, "bitPack: individual unpack: 4");
+        CHECK_MESSAGE(unpackbuffer[0] == (U8) str[5]) ;
+        bitunpack.bitUnpack(unpackbuffer, 8*4, "bitPack: individual unpack: 5"); // Life
+        CHECK_MESSAGE(memcmp(unpackbuffer, str+6, std::min(4, 4)) == 0, "bitPack: 4 bytes unpack:");
     
 }
 

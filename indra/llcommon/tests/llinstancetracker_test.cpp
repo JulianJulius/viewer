@@ -83,7 +83,7 @@ TEST_CASE("test_1")
             ensure_equals(Keyed::instanceCount(), 1);
             auto found = Keyed::getInstance("one");
             CHECK_MESSAGE(bool(found, "couldn't find stack Keyed"));
-            ensure_equals("found wrong Keyed instance", found.get(), &one);
+            CHECK_MESSAGE(found.get() == &one, "found wrong Keyed instance");
             {
                 std::unique_ptr<Keyed> two(new Keyed("two"));
                 ensure_equals(Keyed::instanceCount(), 2);
@@ -139,7 +139,7 @@ TEST_CASE("test_3")
         instances.insert(&three);
         for (auto& ref : Keyed::instance_snapshot())
         {
-            ensure_equals("spurious instance", instances.erase(&ref), 1);
+            CHECK_MESSAGE(instances.erase(&ref) == 1, "spurious instance");
         
 }
 
@@ -156,7 +156,7 @@ TEST_CASE("test_4")
 
         for (auto& ref : Unkeyed::instance_snapshot())
         {
-            ensure_equals("spurious instance", instances.erase(&ref), 1);
+            CHECK_MESSAGE(instances.erase(&ref) == 1, "spurious instance");
         
 }
 

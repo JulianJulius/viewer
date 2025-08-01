@@ -398,7 +398,7 @@ TEST_CASE_FIXTURE(lllogininstance_data, "test_1")
         gTestPump.post(response);
 
         CHECK_MESSAGE(logininstance->authSuccess(, "Success response"));
-        ensure_equals("Test Response Data", logininstance->getResponse().asString(), "test_data");
+        CHECK_MESSAGE(logininstance->getResponse().asString() == "test_data", "Test Response Data");
 
         logininstance->disconnect();
 
@@ -429,8 +429,8 @@ TEST_CASE_FIXTURE(lllogininstance_data, "test_2")
 
         // connect should call LLLogin::connect to init gLoginURI and gLoginCreds.
         CHECK_MESSAGE(gLoginURI == "testing-uri", "Default connect uri");
-        ensure_equals("Default for agree to tos", gLoginCreds["params"]["agree_to_tos"].asBoolean(), false);
-        ensure_equals("Default for read critical", gLoginCreds["params"]["read_critical"].asBoolean(), false);
+        CHECK_MESSAGE(gLoginCreds["params"]["agree_to_tos"].asBoolean() == false, "Default for agree to tos");
+        CHECK_MESSAGE(gLoginCreds["params"]["read_critical"].asBoolean() == false, "Default for read critical");
 
         // TOS failure response.
         LLSD response;
@@ -450,7 +450,7 @@ TEST_CASE_FIXTURE(lllogininstance_data, "test_2")
         logininstance->connect(test_uri, agentCredential);
         gTestPump.post(response); // Fail for tos again.
         gTOSReplyPump->post(true); // Accept tos, should reconnect w/ agree_to_tos.
-        ensure_equals("Accepted agree to tos", gLoginCreds["params"]["agree_to_tos"].asBoolean(), true);
+        CHECK_MESSAGE(gLoginCreds["params"]["agree_to_tos"].asBoolean() == true, "Accepted agree to tos");
         CHECK_MESSAGE(!logininstance->authFailure(, "Incomplete login status") && !logininstance->authSuccess());
 
         // Fail connection, attempt connect again.
@@ -460,7 +460,7 @@ TEST_CASE_FIXTURE(lllogininstance_data, "test_2")
         CHECK_MESSAGE(logininstance->authFailure(, "TOS auth failure"));
 
         logininstance->connect(test_uri, agentCredential);
-        ensure_equals("Reset to default for agree to tos", gLoginCreds["params"]["agree_to_tos"].asBoolean(), false);
+        CHECK_MESSAGE(gLoginCreds["params"]["agree_to_tos"].asBoolean() == false, "Reset to default for agree to tos");
 
         // Critical Message failure response.
         logininstance->connect(test_uri, agentCredential);
@@ -470,7 +470,7 @@ TEST_CASE_FIXTURE(lllogininstance_data, "test_2")
         CHECK_MESSAGE(gTOSType == "message_critical", "TOS Dialog type");
         CHECK_MESSAGE(gTOSReplyPump != 0, "TOS callback given");
         gTOSReplyPump->post(true);
-        ensure_equals("Accepted read critical message", gLoginCreds["params"]["read_critical"].asBoolean(), true);
+        CHECK_MESSAGE(gLoginCreds["params"]["read_critical"].asBoolean() == true, "Accepted read critical message");
         CHECK_MESSAGE(!logininstance->authFailure(, "Incomplete login status") && !logininstance->authSuccess());
 
         // Fail then attempt new connection
@@ -478,7 +478,7 @@ TEST_CASE_FIXTURE(lllogininstance_data, "test_2")
         gTestPump.post(response);
         CHECK_MESSAGE(logininstance->authFailure(, "TOS auth failure"));
         logininstance->connect(test_uri, agentCredential);
-        ensure_equals("Default for agree to tos", gLoginCreds["params"]["read_critical"].asBoolean(), false);
+        CHECK_MESSAGE(gLoginCreds["params"]["read_critical"].asBoolean() == false, "Default for agree to tos");
     
 }
 

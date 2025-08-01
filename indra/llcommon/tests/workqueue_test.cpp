@@ -46,7 +46,7 @@ TEST_CASE_FIXTURE(workqueue_data, "test_1")
 {
 
         set_test_name("name");
-        ensure_equals("didn't capture name", queue.getKey(), "queue");
+        CHECK_MESSAGE(queue.getKey() == "queue", "didn't capture name");
         CHECK_MESSAGE(WorkSchedule::getInstance("queue", "not findable") == queue.getWeak().lock());
         WorkSchedule q2;
         CHECK_MESSAGE(LLStringUtil::startsWith(q2.getKey(, "has no name"), "WorkQueue"));

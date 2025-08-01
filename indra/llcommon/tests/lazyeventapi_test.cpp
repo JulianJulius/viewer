@@ -83,7 +83,7 @@ TEST_CASE_FIXTURE(lazyeventapi_data, "test_1")
         // 'register' still a keyword until C++17
         MyRegistrar regster;
         LLEventPumps::instance().obtain("Test").post(llsd::map("op", "set", "data", "hey"));
-        ensure_equals("failed to set data", data.asString(), "hey");
+        CHECK_MESSAGE(data.asString() == "hey", "failed to set data");
     
 }
 
@@ -115,9 +115,9 @@ TEST_CASE_FIXTURE(lazyeventapi_data, "test_3")
                 break;
         CHECK_MESSAGE(found, "Failed to find MyRegistrar via LLInstanceTracker");
 
-        ensure_equals("wrong API name", found->getName(), "Test");
+        CHECK_MESSAGE(found->getName() == "Test", "wrong API name");
         ensure_contains("wrong API desc", found->getDesc(), "test LLEventAPI");
-        ensure_equals("wrong API field", found->getDispatchKey(), "op");
+        CHECK_MESSAGE(found->getDispatchKey() == "op", "wrong API field");
         // Normally we'd just iterate over *found. But for test purposes,
         // actually capture the range of NameDesc pairs in a vector.
         std::vector<LL::LazyEventAPIBase::NameDesc> ops{ found->begin(), found->end() 
